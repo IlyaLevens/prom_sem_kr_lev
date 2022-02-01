@@ -37,12 +37,12 @@ def add_snippet_page(request):
             record1 = MySnippets(
                 id=id,
                 name=addform.data['name'],
-                creation_date=datetime.datetime.now(),
+                date=datetime.datetime.now(),
             )
             record.save()
             record1.save()
             messages.add_message(request, messages.SUCCESS, "Сниппет успешно добавлен")
-            return redirect('view_snippet', id=id)
+            return redirect('index')
         else:
             messages.add_message(request, messages.ERROR, "Некорректные данные в форме")
             return redirect('add_snippet')
@@ -99,4 +99,4 @@ def my_snippets_page(request):
     context = {
         'data': data
     }
-    render(request, )
+    return render(request, 'pages/list_snippet.html', context)

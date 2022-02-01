@@ -13,4 +13,4 @@ class Snippet(models.Model):
 class MySnippets(models.Model):
     id = models.CharField(max_length=200, primary_key=True)
     name = models.CharField(max_length=200)
-    creation_date = models.DateTimeField()
+    date = models.DateTimeField()

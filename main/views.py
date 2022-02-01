@@ -7,7 +7,7 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 
 from main.forms import LoginForm, AddSnippetForm
-from main.models import Snippet
+from main.models import Snippet, MySnippets
 
 
 def get_base_context(request, pagename):
@@ -33,8 +33,14 @@ def add_snippet_page(request):
                 code=addform.data['code'],
                 creation_date=datetime.datetime.now(),
             )
-            record.save()
             id = record.id
+            record1 = MySnippets(
+                id=id,
+                name=addform.data['name'],
+                creation_date=datetime.datetime.now(),
+            )
+            record.save()
+            record1.save()
             messages.add_message(request, messages.SUCCESS, "Сниппет успешно добавлен")
             return redirect('view_snippet', id=id)
         else:
@@ -43,7 +49,7 @@ def add_snippet_page(request):
     else:
         context['addform'] = AddSnippetForm(
             initial={
-                'user': 'AnonymousUser',
+                'user': request.user,
             }
         )
     return render(request, 'pages/add_snippet.html', context)
@@ -55,7 +61,7 @@ def view_snippet_page(request, id):
         record = Snippet.objects.get(id=id)
         context['addform'] = AddSnippetForm(
             initial={
-                'user': 'AnonymousUser',
+                'user': request.user,
                 'name': record.name,
                 'code': record.code,
             }
@@ -89,4 +95,8 @@ def logout_page(request):
 
 
 def my_snippets_page(request):
-    raise NotImplementedError
+    data = MySnippets.objects.all()
+    context = {
+        'data': data
+    }
+    render(request, )

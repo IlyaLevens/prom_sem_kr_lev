@@ -8,3 +8,9 @@ class Snippet(models.Model):
     creation_date = models.DateTimeField()
     user = models.ForeignKey(to=User, on_delete=models.CASCADE,
                              blank=True, null=True)  # can be empty due to usage of AnonymousUser
+
+
+class MySnippets(models.Model):
+    id = models.CharField(max_length=200, primary_key=True)
+    name = models.CharField(max_length=200)
+    creation_date = models.DateTimeField()
